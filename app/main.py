@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from database.database import engine, SessionLocal
 from models.business import Base, BusinessIdeaDB, BusinessIdeaCreate
+from services.ai_service import analyze_business_idea
 
 Base.metadata.create_all(bind=engine)
 
@@ -66,4 +67,20 @@ def get_business_ideas(db: Session = Depends(get_db)):
     return {
         "count": len(ideas),
         "data": ideas
+    }
+
+@app.post("/analyze/{idea_id}")
+def analyze_idea(idea_id: int, db: Session = Depends(get_db)):
+    idea = db.query(BusinessIdeaDB).filter(BusinessIdeaDB.id == idea_id).first()
+
+    if idea is None:
+        return {
+            "error": "Business idea not found"
+        }
+
+    analysis = analyze_business_idea(idea)
+
+    return {
+        "message": "Business idea analyzed successfully",
+        "analysis": analysis
     }
