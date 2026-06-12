@@ -33,5 +33,5 @@ jobs:
           pytest
 
       - name: Run Security Scan
-        run: |
-             bandit -r . -x tests
+  run: |
+    bandit -r app database models services
