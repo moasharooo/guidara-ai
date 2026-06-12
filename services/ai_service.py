@@ -5,9 +5,30 @@ from openai import OpenAI
 
 load_dotenv()
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=api_key) if api_key else None
+
 
 def analyze_business_idea(idea):
+    if client is None:
+        return {
+            "business_name": idea.business_name,
+            "market_analysis": "AI service is not configured in this environment.",
+            "risk_score": 0,
+            "success_probability": 0,
+            "competition_level": "Unknown",
+            "swot_analysis": {
+                "strengths": [],
+                "weaknesses": [],
+                "opportunities": [],
+                "threats": []
+            },
+            "recommendations": [],
+            "financial_advice": "No API key configured.",
+            "marketing_strategy": "No API key configured.",
+            "final_recommendation": "Configure OPENAI_API_KEY to enable AI analysis."
+        }
+
     prompt = f"""
 You are Guidara AI, an expert business validation advisor.
 
@@ -49,6 +70,7 @@ Return this exact JSON structure:
         text = response.output_text.strip()
         text = text.replace("```json", "").replace("```", "").strip()
         return json.loads(text)
+
     except Exception:
         return {
             "error": "Failed to parse OpenAI response",
