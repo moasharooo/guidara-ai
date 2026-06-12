@@ -13,7 +13,7 @@ jobs:
 test:
 runs-on: ubuntu-latest
 
-```
+
 steps:
   - name: Checkout Code
     uses: actions/checkout@v4
@@ -34,4 +34,4 @@ steps:
   - name: Run Security Scan
     run: |
       bandit -r app database models services
-```
+
