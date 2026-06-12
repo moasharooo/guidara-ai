@@ -15,6 +15,8 @@ class BusinessIdeaDB(Base):
     target_audience = Column(String)
     description = Column(String)
 
+    analysis = Column(String, nullable=True)
+    created_at = Column(String, nullable=True)
 class BusinessIdeaCreate(BaseModel):
     business_name: str
     industry: str

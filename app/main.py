@@ -4,6 +4,8 @@ from sqlalchemy.orm import Session
 from database.database import engine, SessionLocal
 from models.business import Base, BusinessIdeaDB, BusinessIdeaCreate
 from services.ai_service import analyze_business_idea
+from app.dashboard import dashboard_page
+import json
 
 Base.metadata.create_all(bind=engine)
 
@@ -80,7 +82,48 @@ def analyze_idea(idea_id: int, db: Session = Depends(get_db)):
 
     analysis = analyze_business_idea(idea)
 
+    idea.analysis = json.dumps(analysis)
+    db.commit()
+    db.refresh(idea)
+
     return {
-        "message": "Business idea analyzed successfully",
+        "message": "Business idea analyzed and saved successfully",
         "analysis": analysis
     }
+
+@app.get("/business-ideas/{idea_id}")
+def get_business_idea(idea_id: int, db: Session = Depends(get_db)):
+    idea = db.query(BusinessIdeaDB).filter(BusinessIdeaDB.id == idea_id).first()
+
+    if idea is None:
+        return {
+            "error": "Business idea not found"
+        }
+
+    return {
+        "id": idea.id,
+        "business_name": idea.business_name,
+        "industry": idea.industry,
+        "budget": idea.budget,
+        "location": idea.location,
+        "target_audience": idea.target_audience,
+        "description": idea.description,
+        "analysis": json.loads(idea.analysis) if idea.analysis else None
+    }
+
+@app.delete("/business-ideas/{idea_id}")
+def delete_business_idea(idea_id: int, db: Session = Depends(get_db)):
+    idea = db.query(BusinessIdeaDB).filter(BusinessIdeaDB.id == idea_id).first()
+
+    if idea is None:
+        return {"error": "Business idea not found"}
+
+    db.delete(idea)
+    db.commit()
+
+    return {"message": "Business idea deleted successfully"}
+
+
+@app.get("/dashboard")
+def dashboard():
+    return dashboard_page()
