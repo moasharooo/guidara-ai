@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
+from fastapi.staticfiles import StaticFiles
 
 from database.database import engine, SessionLocal
 from models.business import Base, BusinessIdeaDB, BusinessIdeaCreate
@@ -14,6 +15,8 @@ app = FastAPI(
     description="AI-powered business idea validation platform",
     version="1.0.0"
 )
+
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 def get_db():
     db = SessionLocal()

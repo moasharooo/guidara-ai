@@ -250,14 +250,35 @@ def dashboard_page():
 
 .saved-project:hover .delete-btn {
     opacity: 1;
-}                               
+} 
+
+
+.logo-container{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo-img{
+    width:42px;
+    height:42px;
+    object-fit:contain;
+}
+
+.logo-text{
+    font-size:26px;
+    font-weight:bold;
+}                                                      
     </style>
 </head>
 
 <body>
 <div class="layout">
     <aside class="sidebar">
-        <div class="logo">Guidara AI</div>
+        <div class="logo-container">
+    <img src="/static/logooz.png" class="logo-img">
+    <div class="logo-text">Guidara AI</div>
+</div>
         <div class="tagline">Smarter Decisions. Lower Risks.</div>
 
         <div class="nav">Dashboard</div>
