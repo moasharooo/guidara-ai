@@ -1,5 +1,14 @@
 # 🚀 Guidara AI
 
+![Python](https://img.shields.io/badge/Python-3.13-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-Latest-green)
+![OpenAI](https://img.shields.io/badge/OpenAI-GPT--5.5-black)
+![Tests](https://img.shields.io/badge/Tests-Passing-success)
+![CI/CD](https://img.shields.io/badge/GitHub%20Actions-Passing-success)
+
+
+# 🚀 Guidara AI
+
 ### AI-Powered Business Idea Validation Platform
 
 Guidara AI is an intelligent business validation platform that helps entrepreneurs, startups, and innovators evaluate business ideas before investing time and money.
